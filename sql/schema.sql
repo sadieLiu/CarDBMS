@@ -1,1 +1,1 @@
-//cool
+-- Schema for CarDBMS
