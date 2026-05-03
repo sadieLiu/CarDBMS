@@ -2,7 +2,7 @@
 DROP DATABASE IF EXISTS USEDCARS;
 CREATE DATABASE USEDCARS;
 
---role table
+-- role table
 DROP TABLE IF EXISTS ROLE;
 CREATE TABLE ROLE(
 roleID int NOT NULL,
@@ -11,13 +11,13 @@ CONSTRAINT pk_role
 PRIMARY KEY (roleID, name)
 );
  
-INSERT INTO TABLE ROLE  (1, ‘admin’);
+INSERT INTO ROLE (roleID, name) VALUES(1, ‘admin’);
 
-INSERT INTO TABLE ROLE  (2, ‘employee’);
+INSERT INTO ROLE (roleID, name) VALUES(2, ‘employee’);
 
-INSERT INTO TABLE ROLE  (3, ‘customer’);
+INSERT INTO ROLE (roleID, name) VALUES(3, ‘customer’);
 
---fuel type table
+-- fuel type table
 DROP TABLE IF EXISTS FUELTYPE;
 CREATE TABLE FUELTYPE(
 fueltypeID int NOT NULL,
@@ -26,17 +26,17 @@ CONSTRAINT pk_fueltype
 PRIMARY KEY (fueltypeID, name)
 );
  
-INSERT INTO TABLE ROLE (1, gas);
+INSERT INTO ROLE (fueltypeID, name) VALUES(1, gas);
 
-INSERT INTO TABLE ROLE (2, EV);
+INSERT INTO ROLE (fueltypeID, name) VALUES(2, EV);
 
-INSERT INTO TABLE ROLE (3, PHEV);
+INSERT INTO ROLE (fueltypeID, name) VALUES(3, PHEV);
 
-INSERT INTO TABLE ROLE (4, hybrid);
+INSERT INTO ROLE (fueltypeID, name) VALUES(4, hybrid);
 
-INSERT INTO TABLE ROLE (5, diesel);
+INSERT INTO ROLE (fueltypeID, name) VALUES(5, diesel);
 
-INSERT INTO TABLE ROLE (6, hydrogen);
+INSERT INTO ROLE (fueltypeID, name) VALUES(6, hydrogen);
 
 -- drive train table
 DROP TABLE IF EXISTS DRIVETRAIN;
@@ -47,11 +47,11 @@ CONSTRAINT pk_drivetrain
 PRIMARY KEY (drivetrainID, name)
 );
  
-INSERT INTO TABLE DRIVETRAIN (1, CVT);
+INSERT INTO DRIVETRAIN (drivetrainID, name) VALUES(1, CVT);
 
-INSERT INTO TABLE DRIVETRAIN (2, auto);
+INSERT INTO DRIVETRAIN (drivetrainID, name) VALUES(2, auto);
 
-INSERT INTO TABLE DRIVETRAIN (3, manual);
+INSERT INTO DRIVETRAIN (drivetrainID, name) VALUES(3, manual);
 
 -- transmission table
 DROP TABLE IF EXISTS TRANSMISSION;
@@ -62,33 +62,32 @@ CONSTRAINT pk_transmission
 PRIMARY KEY (transmissionID, name)
 );
  
-INSERT INTO TABLE TRANSMISSION (1, 4WD);
+INSERT INTO TRANSMISSION(transmissionID, name) VALUES(1, 4WD);
 
-INSERT INTO TABLE TRANSMISSION (2, AWD);
+INSERT INTO TRANSMISSION(transmissionID, name) VALUES(2, AWD);
 
-INSERT INTO TABLE TRANSMISSION (3, FWD);
+INSERT INTO TRANSMISSION(transmissionID, name) VALUES(3, FWD);
 
-INSERT INTO TABLE TRANSMISSION (4, RWD);
+INSERT INTO TRANSMISSION(transmissionID, name) VALUES(4, RWD);
 
 -- condition table
 DROP TABLE IF EXISTS CONDITIONS;
 CREATE TABLE CONDITIONS(
 conditionID int NOT NULL,
 name varchar(30) NOT NULL,
-CONSTRAINT pk_condition 
-PRIMARY KEY (conditionID, name)
+CONSTRAINT pk_condition PRIMARY KEY (conditionID, name)
 );
  
-INSERT INTO TABLE CONDITIONS (1, oneOwner);
+INSERT INTO CONDITIONS (conditionID, name) VALUES (1, 'oneOwner');
 
-INSERT INTO TABLE CONDITIONS (2, cleanTitle);
+INSERT INTO CONDITIONS (conditionID, name) VALUES (2, cleanTitle);
 
-INSERT INTO TABLE CONDITIONS (3, noAccident);
+INSERT INTO CONDITIONS (conditionID, name) VALUES (3, noAccident);
 
-INSERT INTO TABLE CONDITIONS (4, certifiedPreowned);
+INSERT INTO CONDITIONS (conditionID, name) VALUES (4, certifiedPreowned);
 
 
---body style table
+-- body style table
 DROP TABLE IF EXISTS BODYSTYLE;
 CREATE TABLE BODYSTYLE(
 bodystyleID int NOT NULL,
@@ -97,17 +96,17 @@ CONSTRAINT pk_bodystyle
 PRIMARY KEY (bodystyleID, name)
 );
  
-INSERT INTO TABLE BODYSTYLE (1, sedan);
+INSERT INTO BODYSTYLE (bodystyleID, name) VALUES(1, sedan);
 
-INSERT INTO TABLE BODYSTYLE (2, SUV);
+INSERT INTO BODYSTYLE (bodystyleID, name) VALUES(2, SUV);
 
-INSERT INTO TABLE BODYSTYLE (3, truck);
+INSERT INTO BODYSTYLE (bodystyleID, name) VALUES(3, truck);
 
-INSERT INTO TABLE BODYSTYLE (4, van);
+INSERT INTO BODYSTYLE (bodystyleID, name) VALUES(4, van);
 
-INSERT INTO TABLE BODYSTYLE (5, coupe);
+INSERT INTO BODYSTYLE (bodystyleID, name) VALUES(5, coupe);
 
-INSERT INTO TABLE BODYSTYLE (6, hatchback);
+INSERT INTO BODYSTYLE (bodystyleID, name) VALUES(6, hatchback);
 
 -- feature table
 DROP TABLE IF EXISTS FEATURES;
@@ -118,15 +117,15 @@ CONSTRAINT pk_feature
 PRIMARY KEY (featureID, name)
 );
  
-INSERT INTO TABLE FEATURES (1, towHitch);
+INSERT INTO FEATURES (featureID,name) VALUES(1, towHitch);
 
-INSERT INTO TABLE FEATURES (2, backupCamera);
+INSERT INTO FEATURES (featureID,name) VALUES(2, backupCamera);
 
-INSERT INTO TABLE FEATURES (3, thirdRowSeating);
+INSERT INTO FEATURES (featureID,name) VALUES(3, thirdRowSeating);
 
-INSERT INTO TABLE FEATURES (4, Navigation);
+INSERT INTO FEATURES (featureID,name) VALUES(4, Navigation);
 
-INSERT INTO TABLE FEATURES (5, moonRoof);
+INSERT INTO FEATURES (featureID,name) VALUES(5, moonRoof);
 
 
 -- store table
@@ -140,8 +139,8 @@ CONSTRAINT pk_store
 PRIMARY KEY (storeID)
 );
 
---vehicle table (use license plate as vehicleID)
-DROP TABLE IF IT EXISTS VEHICLE;
+-- vehicle table (use license plate as vehicleID)
+DROP TABLE IF EXISTS VEHICLE;
 CREATE TABLE VEHICLE(
 vehicleID varchar(8) NOT NULL,
 brand varchar(50) NOT NULL,
@@ -156,40 +155,31 @@ drivetrainID int NOT NULL,
 transmissionID int NOT NULL,
 bodystyleID int NOT NULL,
 storeID int NOT NULL,
-CONSTRAINT pk_vehicle 
-PRIMARY KEY (vehicleID),
-CONSTRAINT fk_fuelTypeID 
-FOREIGN KEY (fuelTypeID) REFERENCES FUELTYPE(fuelTypeID),
-CONSTRAINT fk_drivetrainID 
-FOREIGN KEY (drivetrainID) REFERENCES DRIVETRAIN(drivetrainID),
-CONSTRAINT fk_transmissionID 
-FOREIGN KEY (transmissionID) REFERENCES TRANSMISSION(transmissionID),
-CONSTRAINT fk_bodystyleID 
-FOREIGN KEY (bodystyleID) REFERENCES BODYSTYLE(bodystyleID),
-CONSTRAINT fk_storeID 
-FOREIGN KEY (storeID) REFERENCES STORE(storeID),
+CONSTRAINT pk_vehicle PRIMARY KEY (vehicleID),
+CONSTRAINT fk_fuelTypeID FOREIGN KEY (fuelTypeID) REFERENCES FUELTYPE(fuelTypeID),
+CONSTRAINT fk_drivetrainID FOREIGN KEY (drivetrainID) REFERENCES DRIVETRAIN(drivetrainID),
+CONSTRAINT fk_transmissionID FOREIGN KEY (transmissionID) REFERENCES TRANSMISSION(transmissionID),
+CONSTRAINT fk_bodystyleID FOREIGN KEY (bodystyleID) REFERENCES BODYSTYLE(bodystyleID),
+CONSTRAINT fk_storeID FOREIGN KEY (storeID) REFERENCES STORE(storeID)
 );
 
 -- user table
 DROP TABLE IF EXISTS USER;
 CREATE TABLE USER(
 userID int NOT NULL,
-name varchar NOT NULL,
-email varchar NOT NULL,
+name varchar(60) NOT NULL,
+email varchar(60) NOT NULL,
 phone int(10) NOT NULL,
-CONSTRAIN pk_user 
-PRIMARY KEY (userID)
+CONSTRAINT pk_user PRIMARY KEY (userID)
 );
 
---password table
+-- password table
 DROP TABLE IF EXISTS RAINBOW;
 CREATE TABLE RAINBOW(
 userID int NOT NULL,
 hashbrown varchar(50) NOT NULL,
-CONSTRAINT pk_rainbow 
-PRIMARY KEY (userID,hashbrown)
-CONSTRAINT fk_userID 
-FOREIGN KEY (userID) REFERENCES USER(userID)
+CONSTRAINT pk_rainbow PRIMARY KEY (userID,hashbrown),
+CONSTRAINT fk_userID FOREIGN KEY (userID) REFERENCES USER(userID)
 );
 
 -- has conditions table
@@ -199,10 +189,8 @@ vehicleID int NOT NULL,
 conditionID int NOT NULL,
 CONSTRAINT pk_has_condition
 PRIMARY KEY (vehicleID, conditionID),
-CONSTRAINT fk_vehicleID 
-REFERENCES(vehicleID) VEHICLE(vehicleID),
-CONSTRAINT fk_conditionID 
-REFERENCES(conditionID) CONDITION(conditionID)
+CONSTRAINT fk_vehicleID FOREIGN KEY (vehicleID) REFERENCES VEHICLE(vehicleID),
+CONSTRAINT fk_conditionID FOREIGN KEY (conditionID) REFERENCES CONDITIONS(conditionID)
 );
 
 -- has features table
@@ -210,8 +198,8 @@ DROP TABLE IF EXISTS HAS_FEATURE;
 CREATE TABLE HAS_FEATURE(
 vehicleID int NOT NULL,
 featureID int NOT NULL,
-CONSTRAINT fk_vehicleID
-	FOREIGN KEY (vehicleID) REFERENCES VEHICLE(vehicleID)
+CONSTRAINT fk_vehicleID FOREIGN KEY (vehicleID) REFERENCES VEHICLE(vehicleID),
+CONSTRAINT fk_featureID FOREIGN KEY (featureID) REFERENCES FEATURES(featureID)
 );
 
 -- employee table
@@ -223,22 +211,18 @@ CONSTRAINT pk_employee
 PRIMARY KEY (userID, storeID),
 CONSTRAINT fk_userID 
 FOREIGN KEY (userID) REFERENCES USER(userID),
-CONSTRAINT fk_storeID 
-FOREIGN KEY (storeID) REFERENCES STORE(storeID)
+CONSTRAINT fk_storeID FOREIGN KEY (storeID) REFERENCES STORE(storeID)
 );
 
 
-– store manager table
+-- store manager table
 DROP TABLE IF EXISTS MANAGER;
 CREATE TABLE MANAGER(
 userID int NOT NULL,
 storeID int NOT NULL,
-CONSTRAINT pk_manager
-	PRIMARY KEY (userID, storeID)
-CONSTRAINT fk_userID 
-FOREIGN KEY (userID) REFERENCES USER(userID)
-CONSTRAINT fk_storeID 
-FOREIGN KEY (storeID) REFERENCES STORE(storeID)
+CONSTRAINT pk_manager PRIMARY KEY (userID, storeID),
+CONSTRAINT fk_userID FOREIGN KEY (userID) REFERENCES USER(userID),
+CONSTRAINT fk_storeID FOREIGN KEY (storeID) REFERENCES STORE(storeID)
 );
 
 -- purchases table
@@ -247,10 +231,8 @@ CREATE TABLE PURCHASE(
 vehicleID int NOT NULL,
 userID int NOT NULL,
 date DATE,
-price int NOT NULL
+price int NOT NULL,
 CONSTRAINT pk_purchase PRIMARY KEY (vehicleID, userID),
-CONSTRAINT fk_userID 
-FOREIGN KEY (userID) REFERENCES USER(userID),
-CONSTRAINT fk_vehicleID 
-FOREIGN KEY (vehicleID) REFERENCES VEHICLE(vehicleID)
+CONSTRAINT fk_userID FOREIGN KEY (userID) REFERENCES USER(userID),
+CONSTRAINT fk_vehicleID FOREIGN KEY (vehicleID) REFERENCES VEHICLE(vehicleID)
 );
