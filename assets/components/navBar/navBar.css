@@ -6,12 +6,24 @@
   background-color: #008000;
   display: flex;
   align-items:center;
-  justify-content: center;
+  justify-content: space-between;
 }
 
-/* Navbar links */
-#navbar a {
+/* left links */
+#navbar .left a {
   display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 20px;
+  text-decoration: none;
+}
+
+/* center links */
+#navbar .center {
+  display: flex;
+  gap: 5px;
+}
+#navbar .center a {
   color: #f2f2f2;
   text-align: center;
   padding: 20px;
