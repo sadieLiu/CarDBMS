@@ -1,0 +1,40 @@
+<style type="text/tailwindcss">
+  .nav-root {
+    @apply w-full h-16 bg-nav-green flex items-center px-6;
+  }
+  .nav-brand {
+    @apply font-heading text-[32px] text-white leading-none whitespace-nowrap;
+  }
+  .nav-links {
+    @apply flex items-center gap-8 mx-auto;
+  }
+  .nav-link {
+    @apply font-price text-base text-white hover:text-white/80 transition-colors whitespace-nowrap;
+  }
+  .nav-btn {
+    @apply font-heading text-base text-nav-green-dark bg-white px-3 py-2 rounded-lg whitespace-nowrap hover:bg-white/90 transition-colors;
+  }
+</style>
+
+<nav class="nav-root">
+  <span class="nav-brand">ABC Company</span>
+
+  <div class="nav-links">
+    <a href="#" class="nav-link">About Us</a>
+    <a href="#" class="nav-link">Search Cars</a>
+    <a href="#" class="nav-link">Sell Your Car</a>
+  </div>
+
+  <?php if (empty($_SESSION['user_id'])): ?>
+    <a href="/src/back-end/authentication/login.php" class="nav-btn">Log In / Sign Up</a>
+  <?php else: ?>
+    <div class="flex items-center gap-4">
+      <?php if (!empty($isAdmin)): ?>
+        <a href="/src/back-end/apis/crud/vehicles/create.php" class="nav-link">Add Vehicle</a>
+        <a href="/src/back-end/apis/crud/users/index.php" class="nav-link">Users</a>
+      <?php endif ?>
+      <span class="font-price text-base text-white"><?= htmlspecialchars($userName) ?></span>
+      <a href="/src/back-end/authentication/logout.php" class="nav-btn">Logout</a>
+    </div>
+  <?php endif ?>
+</nav>

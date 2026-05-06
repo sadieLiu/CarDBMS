@@ -1,0 +1,29 @@
+<style type="text/tailwindcss">
+  /* base */
+  .btn {
+    @apply inline-flex items-center justify-center font-heading text-base leading-none whitespace-nowrap cursor-pointer transition-opacity rounded-lg px-4 py-2 border border-transparent;
+  }
+  .btn:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* green fill — matches Sign Up / primary action */
+  .btn-primary {
+    @apply bg-nav-green text-white hover:opacity-90;
+  }
+
+  /* white fill + dark green text — matches nav button */
+  .btn-secondary {
+    @apply bg-white text-nav-green-dark border-white hover:opacity-90;
+  }
+
+  /* outlined on dark bg */
+  .btn-outline {
+    @apply bg-transparent text-white border-white hover:bg-white/10;
+  }
+
+  /* danger */
+  .btn-danger {
+    @apply bg-red-600 text-white hover:opacity-90;
+  }
+</style>

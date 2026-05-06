@@ -1,0 +1,24 @@
+<style type="text/tailwindcss">
+  .input-label {
+    @apply block font-price text-sm text-car-text mb-1;
+  }
+  .input-text,
+  .input-select,
+  .input-textarea {
+    @apply w-full h-[38px] px-3 font-body text-sm text-car-text bg-white
+           border border-car-border rounded-lg
+           focus:outline-none focus:ring-2 focus:ring-nav-green-accent focus:border-transparent
+           transition shadow-sm;
+  }
+  .input-textarea {
+    @apply h-auto min-h-[80px] py-2 resize-y;
+  }
+  .input-select {
+    @apply appearance-none bg-no-repeat pr-8;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23757575' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-position: right 12px center;
+  }
+  .input-group {
+    @apply flex flex-col gap-1 w-full;
+  }
+</style>

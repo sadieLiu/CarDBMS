@@ -1,0 +1,55 @@
+<style type="text/tailwindcss">
+  .login-card {
+    @apply bg-white border border-panel-border rounded-[10px] shadow-panel
+           w-[367px] flex flex-col overflow-hidden;
+  }
+  .login-title {
+    @apply font-heading text-2xl text-nav-green-accent text-center pt-8 pb-6;
+  }
+  .login-body {
+    @apply flex flex-col gap-5 px-8 pb-0;
+  }
+  .login-error {
+    @apply font-body text-sm text-red-600 text-center;
+  }
+  .login-submit {
+    @apply w-full h-[38px] bg-nav-green font-heading text-2xl text-white
+           rounded-none mt-6 cursor-pointer hover:opacity-90 transition-opacity;
+  }
+</style>
+
+<div class="login-card">
+  <h1 class="login-title">Log In</h1>
+
+  <form method="post" action="../../back-end/authentication/login.php" class="login-body">
+    <?php if (!empty($error)): ?>
+      <p class="login-error"><?= htmlspecialchars($error) ?></p>
+    <?php endif ?>
+
+    <div class="input-group">
+      <label class="input-label" for="login-email">email</label>
+      <input
+        id="login-email"
+        class="input-text"
+        type="email"
+        name="email"
+        required
+        autocomplete="email"
+      >
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="login-password">password</label>
+      <input
+        id="login-password"
+        class="input-text"
+        type="password"
+        name="password"
+        required
+        autocomplete="current-password"
+      >
+    </div>
+
+    <button type="submit" class="login-submit">Sign In</button>
+  </form>
+</div>
