@@ -35,65 +35,85 @@ $stmt = $pdo->prepare("
 $stmt->execute($params);
 $vehicles = $stmt->fetchAll();
 
-$stores    = $pdo->query('SELECT storeID, storeName FROM STORE ORDER BY storeName')->fetchAll();
+$stores     = $pdo->query('SELECT storeID, storeName FROM STORE ORDER BY storeName')->fetchAll();
 $bodyStyles = ['sedan','SUV','truck','van','coupe','hatchback'];
 $fuelTypes  = ['gas','EV','PHEV','hybrid','diesel','hydrogen'];
+
+$userName = htmlspecialchars($_SESSION['user_name'] ?? '');
+$isAdmin  = !empty($_SESSION['isAdmin']);
+
+$filters = [
+    'make'      => $filterMake,
+    'bodyStyle' => $filterBody,
+    'fuelType'  => $filterFuel,
+    'storeID'   => $filterStore,
+];
 ?>
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Vehicles</title></head><body>
-<h2>Vehicles</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Cars — ABC Company</title>
+  <?php include '../../../../frontend/components/_fonts.html'; ?>
+  <?php include '../../../../frontend/components/buttons.html'; ?>
+  <?php include '../../../../frontend/components/inputs.html'; ?>
+  <style type="text/tailwindcss">
+    .card-grid { @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-100 flex flex-col">
 
-<?php if (!empty($_GET['success'])): ?><p style="color:green"><?= htmlspecialchars($_GET['success']) ?></p><?php endif ?>
-<?php if (!empty($_GET['error'])): ?><p style="color:red"><?= htmlspecialchars($_GET['error']) ?></p><?php endif ?>
+  <?php include '../../../../frontend/components/navbar.html'; ?>
 
-<form method="get">
-  <label>Make: <input type="text" name="make" value="<?= htmlspecialchars($filterMake) ?>"></label>
-  <label>Body Style: <select name="bodyStyle"><option value="">All</option><?php foreach ($bodyStyles as $b): ?><option value="<?= $b ?>" <?= $filterBody===$b?'selected':'' ?>><?= $b ?></option><?php endforeach ?></select></label>
-  <label>Fuel Type: <select name="fuelType"><option value="">All</option><?php foreach ($fuelTypes as $f): ?><option value="<?= $f ?>" <?= $filterFuel===$f?'selected':'' ?>><?= $f ?></option><?php endforeach ?></select></label>
-  <label>Store: <select name="storeID"><option value="0">All</option><?php foreach ($stores as $s): ?><option value="<?= $s['storeID'] ?>" <?= $filterStore==$s['storeID']?'selected':'' ?>><?= htmlspecialchars($s['storeName']) ?></option><?php endforeach ?></select></label>
-  <button type="submit">Filter</button> <a href="read.php">Clear</a>
-</form>
+  <div class="flex flex-1 gap-6 p-6">
 
-<?php if (!empty($_SESSION['isAdmin'])): ?><a href="create.php">+ Add Vehicle</a><?php endif ?><br><br>
+    <?php include '../../../../frontend/components/sidebar.html'; ?>
 
-<?php if (empty($vehicles)): ?><p>No vehicles found.</p><?php else: ?>
-<table border="1" cellpadding="5" cellspacing="0">
-  <thead><tr>
-    <th>VIN</th><th>Plate</th><th>Make</th><th>Model</th><th>Year</th>
-    <th>Price</th><th>Mileage</th><th>MPG</th><th>Body</th>
-    <th>Fuel</th><th>Trans</th><th>Drive</th><th>Ex.Color</th><th>In.Color</th>
-    <th>Store</th><th>Conditions</th><th>Features</th><th>Added</th>
-    <?php if (!empty($_SESSION['isAdmin'])): ?><th>Actions</th><?php endif ?>
-  </tr></thead>
-  <tbody>
-  <?php foreach ($vehicles as $v): ?>
-    <tr>
-      <td><?= htmlspecialchars($v['VIN']) ?></td>
-      <td><?= htmlspecialchars($v['licensePlate']) ?></td>
-      <td><?= htmlspecialchars($v['make']) ?></td>
-      <td><?= htmlspecialchars($v['model']) ?></td>
-      <td><?= $v['year'] ?></td>
-      <td>$<?= number_format($v['listPrice'], 2) ?></td>
-      <td><?= number_format($v['mileage']) ?></td>
-      <td><?= htmlspecialchars($v['MPG'] ?? '—') ?></td>
-      <td><?= htmlspecialchars($v['bodyStyle']) ?></td>
-      <td><?= htmlspecialchars($v['fuelType'] ?? '—') ?></td>
-      <td><?= htmlspecialchars($v['transmission'] ?? '—') ?></td>
-      <td><?= htmlspecialchars($v['driveTrain'] ?? '—') ?></td>
-      <td><?= htmlspecialchars($v['exColor'] ?? '—') ?></td>
-      <td><?= htmlspecialchars($v['inColor'] ?? '—') ?></td>
-      <td><?= htmlspecialchars($v['storeName']) ?></td>
-      <td><?= htmlspecialchars($v['conditions'] ?? '—') ?></td>
-      <td><?= htmlspecialchars($v['features'] ?? '—') ?></td>
-      <td><?= htmlspecialchars($v['addedAt']) ?></td>
-      <?php if (!empty($_SESSION['isAdmin'])): ?>
-      <td>
-        <a href="update.php?VIN=<?= urlencode($v['VIN']) ?>">Edit</a> |
-        <a href="delete.php?VIN=<?= urlencode($v['VIN']) ?>" onclick="return confirm('Delete <?= htmlspecialchars($v['VIN']) ?>?')">Delete</a>
-      </td>
+    <main class="flex-1 flex flex-col gap-4">
+
+      <?php if (!empty($_GET['success'])): ?>
+        <p class="font-body text-sm text-nav-green-accent"><?= htmlspecialchars($_GET['success']) ?></p>
       <?php endif ?>
-    </tr>
-  <?php endforeach ?>
-  </tbody>
-</table>
-<?php endif ?>
-</body></html>
+      <?php if (!empty($_GET['error'])): ?>
+        <p class="font-body text-sm text-red-600"><?= htmlspecialchars($_GET['error']) ?></p>
+      <?php endif ?>
+
+      <div class="flex items-center justify-between">
+        <span class="font-body text-sm text-car-muted"><?= count($vehicles) ?> vehicle<?= count($vehicles) !== 1 ? 's' : '' ?> found</span>
+        <?php if ($isAdmin): ?>
+          <a href="create.php" class="btn btn-primary">+ Add Vehicle</a>
+        <?php endif ?>
+      </div>
+
+      <?php if (empty($vehicles)): ?>
+        <p class="font-body text-car-muted text-center py-16">No vehicles found.</p>
+      <?php else: ?>
+        <div class="card-grid">
+          <?php foreach ($vehicles as $v): ?>
+            <?php
+              $price    = '$' . number_format($v['listPrice'], 2);
+              $title    = $v['year'] . ' ' . htmlspecialchars($v['make']) . ' ' . htmlspecialchars($v['model']);
+              $subtitle = htmlspecialchars($v['storeName']);
+              $imgSrc   = '';
+            ?>
+            <div class="relative">
+              <?php include '../../../../frontend/components/card.html'; ?>
+              <?php if ($isAdmin): ?>
+                <div class="absolute top-2 right-2 flex gap-1">
+                  <a href="update.php?VIN=<?= urlencode($v['VIN']) ?>" class="btn btn-secondary text-xs px-2 py-1">Edit</a>
+                  <a href="delete.php?VIN=<?= urlencode($v['VIN']) ?>"
+                     onclick="return confirm('Delete <?= htmlspecialchars($v['VIN']) ?>?')"
+                     class="btn btn-danger text-xs px-2 py-1">Del</a>
+                </div>
+              <?php endif ?>
+            </div>
+          <?php endforeach ?>
+        </div>
+      <?php endif ?>
+
+    </main>
+  </div>
+
+</body>
+</html>
