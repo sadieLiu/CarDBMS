@@ -1,0 +1,36 @@
+<style type="text/tailwindcss">
+  .card-root {
+    @apply bg-white border border-car-border rounded-lg shadow-card flex flex-col gap-4 p-4 w-full;
+  }
+  .card-image {
+    @apply relative w-full h-[247px] bg-car-placeholder rounded overflow-hidden shrink-0;
+  }
+  .card-image img {
+    @apply absolute inset-0 w-full h-full object-cover;
+  }
+  .card-body {
+    @apply flex flex-col gap-2;
+  }
+  .card-price {
+    @apply font-price text-base text-car-text;
+  }
+  .card-title {
+    @apply font-heading text-2xl text-car-text;
+  }
+  .card-subtitle {
+    @apply font-body text-xs text-car-muted;
+  }
+</style>
+
+<div class="card-root">
+  <div class="card-image">
+    <?php if (!empty($imgSrc)): ?>
+      <img src="<?= htmlspecialchars($imgSrc) ?>" alt="<?= htmlspecialchars($title) ?>">
+    <?php endif ?>
+  </div>
+  <div class="card-body">
+    <span class="card-price"><?= htmlspecialchars($price) ?></span>
+    <span class="card-title"><?= htmlspecialchars($title) ?></span>
+    <span class="card-subtitle"><?= htmlspecialchars($subtitle) ?></span>
+  </div>
+</div>

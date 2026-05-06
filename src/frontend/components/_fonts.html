@@ -1,0 +1,31 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Londrina+Solid&family=Inter:wght@400;500;600&family=Manjari&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          heading: ['"Londrina Solid"', 'cursive'],
+          body: ['Inter', 'sans-serif'],
+          price: ['Manjari', 'sans-serif'],
+        },
+        colors: {
+          'car-border':       '#d9d9d9',
+          'car-placeholder':  '#e3e3e3',
+          'car-text':         '#1e1e1e',
+          'car-muted':        '#757575',
+          'nav-green':        'rgba(0,153,81,0.9)',
+          'nav-green-dark':   '#02542d',
+          'nav-green-accent': 'rgba(20,174,92,0.9)',
+          'panel-border':     'rgba(217,217,217,0.24)',
+        },
+        boxShadow: {
+          card:  '0px 4px 2px rgba(0,0,0,0.3)',
+          panel: '0px 4px 4px 0px rgba(0,0,0,0.4)',
+        },
+      },
+    },
+  }
+</script>
