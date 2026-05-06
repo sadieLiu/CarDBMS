@@ -1,0 +1,86 @@
+<style type="text/tailwindcss">
+  .sidebar-root {
+    @apply bg-white border border-panel-border rounded-[10px] shadow-panel
+           w-[228px] flex flex-col overflow-hidden h-full;
+  }
+  .sidebar-header {
+    @apply bg-nav-green font-heading text-xl text-white text-center py-2;
+  }
+  .sidebar-body {
+    @apply flex flex-col gap-1 px-4 py-3;
+  }
+  .sidebar-label {
+    @apply font-price text-sm text-car-text py-2 border-b border-car-border cursor-pointer
+           hover:text-nav-green-accent transition-colors;
+  }
+  .sidebar-title {
+    @apply font-heading text-lg text-car-text mb-2;
+  }
+</style>
+
+<aside class="sidebar-root">
+  <div class="sidebar-header">Filter &amp; Sort</div>
+
+  <form method="get" class="sidebar-body">
+    <div class="input-group">
+      <label class="input-label" for="sb-make">Make &amp; Model</label>
+      <input
+        id="sb-make"
+        class="input-text"
+        type="text"
+        name="make"
+        value="<?= htmlspecialchars($filters['make'] ?? '') ?>"
+        placeholder="Any"
+      >
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-body">Body Style</label>
+      <select id="sb-body" class="input-select" name="bodyStyle">
+        <option value="">All</option>
+        <?php foreach (['sedan','SUV','truck','van','coupe','hatchback'] as $b): ?>
+          <option value="<?= $b ?>" <?= ($filters['bodyStyle'] ?? '') === $b ? 'selected' : '' ?>><?= $b ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-fuel">Fuel Type</label>
+      <select id="sb-fuel" class="input-select" name="fuelType">
+        <option value="">All</option>
+        <?php foreach (['gas','EV','PHEV','hybrid','diesel','hydrogen'] as $f): ?>
+          <option value="<?= $f ?>" <?= ($filters['fuelType'] ?? '') === $f ? 'selected' : '' ?>><?= $f ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-store">Store</label>
+      <select id="sb-store" class="input-select" name="storeID">
+        <option value="0">All Stores</option>
+        <?php foreach ($stores as $s): ?>
+          <option value="<?= (int)$s['storeID'] ?>" <?= ($filters['storeID'] ?? 0) == $s['storeID'] ? 'selected' : '' ?>>
+            <?= htmlspecialchars($s['storeName']) ?>
+          </option>
+        <?php endforeach ?>
+      </select>
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-year">Year</label>
+      <input id="sb-year" class="input-text" type="number" name="year" min="1900" max="2026"
+             value="<?= htmlspecialchars($filters['year'] ?? '') ?>" placeholder="Any">
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-mileage">Mileage (max)</label>
+      <input id="sb-mileage" class="input-text" type="number" name="mileage" min="0"
+             value="<?= htmlspecialchars($filters['mileage'] ?? '') ?>" placeholder="Any">
+    </div>
+
+    <div class="flex gap-2 mt-4">
+      <button type="submit" class="btn btn-primary flex-1">Apply</button>
+      <a href="?" class="btn btn-secondary flex-1 text-center">Clear</a>
+    </div>
+  </form>
+</aside>
