@@ -1,0 +1,28 @@
+<style type="text/tailwindcss">
+  .hero-root {
+    @apply relative w-full flex-1 overflow-hidden flex bg-nav-green-dark;
+  }
+  .hero-bg {
+    @apply absolute inset-0 w-full h-full object-cover object-center;
+  }
+  .hero-content {
+    @apply relative z-10 flex flex-col justify-end gap-8 pb-16 pl-16 pr-8 w-full min-h-[calc(100vh-64px)];
+  }
+  .hero-heading {
+    @apply font-heading text-[80px] leading-[0.9] text-white max-w-[55%];
+    text-shadow: 3px 3px 12px rgba(0,0,0,0.5);
+  }
+  .hero-cta {
+    @apply rounded-full px-10 py-4 text-xl w-fit;
+  }
+</style>
+
+<section class="hero-root">
+  <?php if (!empty($heroImage)): ?>
+    <img class="hero-bg" src="<?= htmlspecialchars($heroImage) ?>" alt="">
+  <?php endif ?>
+  <div class="hero-content">
+    <h1 class="hero-heading">What does your next car look like?</h1>
+    <a href="/src/back-end/apis/crud/vehicles/read.php" class="btn btn-primary hero-cta">Lets find out!</a>
+  </div>
+</section>

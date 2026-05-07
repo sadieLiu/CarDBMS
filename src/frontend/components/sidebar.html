@@ -22,7 +22,18 @@
   <div class="sidebar-header">Filter &amp; Sort</div>
 
   <form method="get" class="sidebar-body">
+
     <div class="input-group">
+      <label class="input-label" for="sb-body">Body Style</label>
+      <select id="sb-body" class="input-select" name="bodyStyle">
+        <option value="">All</option>
+        <?php foreach (['sedan','SUV','truck','van','coupe','hatchback'] as $b): ?>
+          <option value="<?= $b ?>" <?= ($filters['bodyStyle'] ?? '') === $b ? 'selected' : '' ?>><?= ucfirst($b) ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+
+    <div class="input-group mt-2">
       <label class="input-label" for="sb-make">Make &amp; Model</label>
       <input
         id="sb-make"
@@ -32,38 +43,6 @@
         value="<?= htmlspecialchars($filters['make'] ?? '') ?>"
         placeholder="Any"
       >
-    </div>
-
-    <div class="input-group mt-2">
-      <label class="input-label" for="sb-body">Body Style</label>
-      <select id="sb-body" class="input-select" name="bodyStyle">
-        <option value="">All</option>
-        <?php foreach (['sedan','SUV','truck','van','coupe','hatchback'] as $b): ?>
-          <option value="<?= $b ?>" <?= ($filters['bodyStyle'] ?? '') === $b ? 'selected' : '' ?>><?= $b ?></option>
-        <?php endforeach ?>
-      </select>
-    </div>
-
-    <div class="input-group mt-2">
-      <label class="input-label" for="sb-fuel">Fuel Type</label>
-      <select id="sb-fuel" class="input-select" name="fuelType">
-        <option value="">All</option>
-        <?php foreach (['gas','EV','PHEV','hybrid','diesel','hydrogen'] as $f): ?>
-          <option value="<?= $f ?>" <?= ($filters['fuelType'] ?? '') === $f ? 'selected' : '' ?>><?= $f ?></option>
-        <?php endforeach ?>
-      </select>
-    </div>
-
-    <div class="input-group mt-2">
-      <label class="input-label" for="sb-store">Store</label>
-      <select id="sb-store" class="input-select" name="storeID">
-        <option value="0">All Stores</option>
-        <?php foreach ($stores as $s): ?>
-          <option value="<?= (int)$s['storeID'] ?>" <?= ($filters['storeID'] ?? 0) == $s['storeID'] ? 'selected' : '' ?>>
-            <?= htmlspecialchars($s['storeName']) ?>
-          </option>
-        <?php endforeach ?>
-      </select>
     </div>
 
     <div class="input-group mt-2">
@@ -78,9 +57,76 @@
              value="<?= htmlspecialchars($filters['mileage'] ?? '') ?>" placeholder="Any">
     </div>
 
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-zip">ZIP</label>
+      <input id="sb-zip" class="input-text" type="text" name="zip"
+             value="<?= htmlspecialchars($filters['zip'] ?? '') ?>" placeholder="Any">
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-price">Price (max)</label>
+      <input id="sb-price" class="input-text" type="number" name="priceMax" min="0"
+             value="<?= htmlspecialchars($filters['priceMax'] ?? '') ?>" placeholder="Any">
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-trans">Transmission</label>
+      <select id="sb-trans" class="input-select" name="transmission">
+        <option value="">All</option>
+        <?php foreach (['automatic','manual','CVT'] as $t): ?>
+          <option value="<?= $t ?>" <?= ($filters['transmission'] ?? '') === $t ? 'selected' : '' ?>><?= ucfirst($t) ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-drive">Drive Train</label>
+      <select id="sb-drive" class="input-select" name="driveTrain">
+        <option value="">All</option>
+        <?php foreach (['FWD','RWD','AWD','4WD'] as $d): ?>
+          <option value="<?= $d ?>" <?= ($filters['driveTrain'] ?? '') === $d ? 'selected' : '' ?>><?= $d ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-fuel">Fuel Type</label>
+      <select id="sb-fuel" class="input-select" name="fuelType">
+        <option value="">All</option>
+        <?php foreach (['gas','EV','PHEV','hybrid','diesel','hydrogen'] as $f): ?>
+          <option value="<?= $f ?>" <?= ($filters['fuelType'] ?? '') === $f ? 'selected' : '' ?>><?= strtoupper($f) === $f ? $f : ucfirst($f) ?></option>
+        <?php endforeach ?>
+      </select>
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-excolor">Exterior Color</label>
+      <input id="sb-excolor" class="input-text" type="text" name="exColor"
+             value="<?= htmlspecialchars($filters['exColor'] ?? '') ?>" placeholder="Any">
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-incolor">Interior Color</label>
+      <input id="sb-incolor" class="input-text" type="text" name="inColor"
+             value="<?= htmlspecialchars($filters['inColor'] ?? '') ?>" placeholder="Any">
+    </div>
+
+    <div class="input-group mt-2">
+      <label class="input-label" for="sb-store">Store</label>
+      <select id="sb-store" class="input-select" name="storeID">
+        <option value="0">All Stores</option>
+        <?php foreach ($stores as $s): ?>
+          <option value="<?= (int)$s['storeID'] ?>" <?= ($filters['storeID'] ?? 0) == $s['storeID'] ? 'selected' : '' ?>>
+            <?= htmlspecialchars($s['storeName']) ?>
+          </option>
+        <?php endforeach ?>
+      </select>
+    </div>
+
     <div class="flex gap-2 mt-4">
       <button type="submit" class="btn btn-primary flex-1">Apply</button>
       <a href="?" class="btn btn-secondary flex-1 text-center">Clear</a>
     </div>
+
   </form>
 </aside>
